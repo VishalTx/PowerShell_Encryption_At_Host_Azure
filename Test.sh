@@ -8,6 +8,33 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
+#!/bin/bash
+
+# ==================================================
+# Azure VM Encryption at Host Configuration
+# ==================================================
+
+# Exit immediately if a command exits with a non-zero status
+set -e
+
+# --- START: ADD THESE REGISTRATION STEPS HERE ---
+echo "Registering EncryptionAtHost feature..."
+az feature register --namespace Microsoft.Compute --name EncryptionAtHost --output none
+
+echo "Registering Microsoft.Compute provider..."
+az provider register --namespace Microsoft.Compute --output none
+
+echo "Waiting for feature registration to propagate (this may take a moment)..."
+az feature wait --namespace Microsoft.Compute --name EncryptionAtHost
+echo "Registration complete."
+echo "--------------------------------------------------------------------------------"
+
+# Define your variables here
+RESOURCE_GROUP=Cloud-Operations
+VM_NAME=test-encrypt-host
+
+# ... The rest of your existing script continues here ...
+
 # Define your variables here
 RESOURCE_GROUP="your-resource-group-name"
 VM_NAME="your-vm-name"
